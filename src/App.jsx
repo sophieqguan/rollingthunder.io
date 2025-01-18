@@ -5,7 +5,9 @@ import './App.css'
 import { generateClient } from 'aws-amplify/data';
 import { Amplify } from 'aws-amplify';
 import config from '../amplify_outputs.json';
-import { StringConcat } from 'aws-cdk-lib';
+import Track from './rollerTrack/track';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
 
 
 Amplify.configure(config)
@@ -35,11 +37,12 @@ function App() {
       }
 
       const output = await response.json();
-      setData(output); 
+      setData(output.message); 
     } catch (error) {
       console.error('Error calling Lambda:', error);
     }
   };
+
 
   return (
     <>
@@ -49,12 +52,27 @@ function App() {
       </div>
       <h1>Rolling Thunder</h1>
       <h3> Electric Boogaloo </h3>
-      <p> {data} </p>
+      
+    <FileUploader
+      acceptedFileTypes={['audio/*']}
+      path="public/"
+      maxFileCount={1}
+      isResumable
+      displayText={{
+        dropFilesText: 'Drop your thunders to roll or',
+        browseFilesText: 'Browser',
+        getFilesUploadedText(count) {
+          return `${count} thunder uploaded`;
+        },
+      }}
+      />
+      
       <div className="card">
         <button onClick={() => fetchRoller(Math.random())}>
           {data}
         </button>
       </div>
+      
     </>
   )
 }
