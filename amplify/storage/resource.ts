@@ -4,7 +4,7 @@ export const storage = defineStorage({
   name: "amplifyStorageDrive",
   access: (allow) => ({
     "media/{entity_id}/*": [
-      allow.entity("identity").to(["read", "write", "delete"]),
+      allow.guest.to(["read", "write", "delete"]),
     ],
   }),
 });

@@ -19,6 +19,7 @@ const client = generateClient();
 
 function App() {
   const [data, setData] = useState("[Nothing here yet...]")
+  const [fileUploaded, setFileUploaded] = useState(false);
   
   const fetchRoller = async () => {
     const requestBody = { input: "Hello world!" };
@@ -55,9 +56,10 @@ function App() {
       
     <FileUploader
       acceptedFileTypes={['audio/*']}
-      path="public/"
+      path={({ identityId }) => `media/${identityId}/`}
       maxFileCount={1}
       isResumable
+      onUploadSuccess={() => setFileUploaded(true)}
       displayText={{
         dropFilesText: 'Drop your thunders to roll or',
         browseFilesText: 'Browser',
@@ -72,7 +74,9 @@ function App() {
           {data}
         </button>
       </div>
-      
+
+      {fileUploaded ? <Track/> : "Upload a file to start..."}
+
     </>
   )
 }
