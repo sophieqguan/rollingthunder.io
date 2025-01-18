@@ -18,8 +18,27 @@ const client = generateClient();
 function App() {
   const [data, setData] = useState("[Nothing here yet...]")
   
-  const fetchRoller = async (input) => {
-    setData(input);  
+  const fetchRoller = async () => {
+    const requestBody = { input: "Hello world!" };
+
+    try {
+      const response = await fetch('https://4uu5msanif3aqdh7m752tdxzku0nmcsf.lambda-url.us-west-2.on.aws/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      const output = await response.json();
+      setData(output); 
+    } catch (error) {
+      console.error('Error calling Lambda:', error);
+    }
   };
 
   return (
