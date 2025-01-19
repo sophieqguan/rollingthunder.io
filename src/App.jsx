@@ -56,7 +56,7 @@ function App() {
       
     <FileUploader
       acceptedFileTypes={['audio/*']}
-      path={({ identityId }) => `media/${identityId}/`}
+      path={({ identityId }) => 'media/${identityId}/'}
       maxFileCount={1}
       isResumable
       onUploadSuccess={() => setFileUploaded(true)}
